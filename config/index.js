@@ -1,5 +1,7 @@
 export const COLOR={
-    primary:'#fd7e14'
+    primary:'#fd7e14',
+    secondary:'#0b7285',
+    three:'#c2255c'
 }
 
 export const TITLE={

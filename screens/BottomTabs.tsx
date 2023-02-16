@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 
 import {View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -14,7 +14,8 @@ import {COLOR} from '../config';
 
 const Tab = createBottomTabNavigator();
 
-function BottomTabs(): JSX.Element {
+function BottomTabs({navigation}: {navigation: any}): JSX.Element {
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <Tab.Navigator
       initialRouteName="home"
@@ -33,13 +34,20 @@ function BottomTabs(): JSX.Element {
       }}>
       <Tab.Screen
         name="home"
-        component={Home}
+        component={() => {
+          return Home({
+            navigation: null,
+            modalVisible: modalVisible,
+            setModalVisible: setModalVisible,
+          });
+        }}
         options={{
           tabBarActiveTintColor: COLOR.primary,
           tabBarActiveBackgroundColor: COLOR.primary,
           tabBarInactiveTintColor: 'gray',
           headerTitleAlign: 'center',
           tabBarShowLabel: false,
+          headerShown: !modalVisible,
           tabBarIcon: ({focused}) => {
             return (
               <View>

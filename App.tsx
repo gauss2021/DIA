@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -34,6 +34,7 @@ import SplashScreen from './screens/SplashScreen';
 import ForgetMdp from './screens/ForgetMdp';
 import CheckYourPhone from './screens/CheckYourPhone';
 import BottomTabs from './screens/BottomTabs';
+import RestaurantInfo from './screens/RestaurantInfo';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -69,6 +70,7 @@ const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+  const [modalVisible, setModalVisible] = useState(false);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -79,9 +81,15 @@ function App(): JSX.Element {
       <Stack.Navigator initialRouteName="bottomtabs">
         <Stack.Screen
           name="home"
-          component={Home}
+          component={() => {
+            return Home({
+              navigation: null,
+              modalVisible: modalVisible,
+              setModalVisible: setModalVisible,
+            });
+          }}
           options={{
-            headerShown: true,
+            headerShown: !modalVisible,
             title: 'DIA',
             headerTitleAlign: 'center',
             headerBlurEffect: 'light',
